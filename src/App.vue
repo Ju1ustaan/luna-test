@@ -12,6 +12,7 @@ const listOfData = ref([])
 const getData = async () => {
   try {
     const { data } = await axios('https://64b4c8450efb99d862694609.mockapi.io/tree/items')
+    console.log(data.length);
     listOfData.value = data
   } catch (error) {
     console.error('не получилось', error)
@@ -30,7 +31,6 @@ const showList = () => {
 <template>
   <div class="container">
     <div class="wrapper">
-
       <ListButton @click="showList()" />
       <ul 
       class="list"
@@ -41,6 +41,9 @@ const showList = () => {
         :key="list.id" 
         :listOfData="listOfData" 
         :list="list" />
+        <div class="list__bg">
+          <div :class="{'odd': idx % 2 === 0}" v-for="(item, idx) in listOfData"></div>
+        </div>
       </ul>
     </div>
   </div>
@@ -49,19 +52,40 @@ const showList = () => {
 <style scoped>
 .wrapper {
   padding: 20px 0;
-  transition: 1s ease-in;
-
 }
 .parent {
-  background-color: #e4e4e8;
-}
-.parent:not(:last-child){
-  border-bottom: 1px solid #b1b1b3;
+  position: relative;
+  background-color: #e4e4e88a;
+  z-index: 99;
+
 }
 .list {
+  position: relative;
   margin-top: 20px;
   border-radius: 5px;
   border: 1px solid #e4e4e8;
   overflow: hidden;
+}
+
+.list__bg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  display: grid;
+  grid-template-rows: repeat(53, 41px);
+}
+
+.odd {
+  background-color: #f6f6f7;
+}
+
+.list__bg:last-child{
+  background-color: #e4e4e8;
+}
+.odd:first-child{
+  background-color: #e4e4e8;
 }
 </style>

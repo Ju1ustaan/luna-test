@@ -75,11 +75,13 @@ export default {
     padding: 0 20px;
     display: flex;
     align-items: center;
-    gap: 15px;
+    column-gap: 15px;
+    max-height: 41px;
 }
 
 .title {
     font-size: 18px;
+    max-height: 41px;
     padding: 10px 0;
     font-weight: 500;
     cursor: pointer;
@@ -93,21 +95,12 @@ export default {
 .child {
     font-size: 16px;
     padding: 0 4em;
-    background-color: #f6f6f7;
     cursor: pointer;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 10px;
     width: 150%;
     margin-left: -3.2em;
 }
 
-.child:not(:last-child) {
-    border-bottom: 1px solid #b1b1b3;
-}
-
-.odd {
-    background-color: #fff;
-}
 </style>
