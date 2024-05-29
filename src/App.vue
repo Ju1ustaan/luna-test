@@ -12,7 +12,6 @@ const listOfData = ref([])
 const getData = async () => {
   try {
     const { data } = await axios('https://64b4c8450efb99d862694609.mockapi.io/tree/items')
-    console.log(data.length);
     listOfData.value = data
   } catch (error) {
     console.error('не получилось', error)
@@ -42,7 +41,10 @@ const showList = () => {
         :listOfData="listOfData" 
         :list="list" />
         <div class="list__bg">
-          <div :class="{'odd': idx % 2 === 0}" v-for="(item, idx) in listOfData"></div>
+          <div 
+          :class="{'odd': idx % 2 === 0}" 
+          v-for="(item, idx) in listOfData">
+        </div>
         </div>
       </ul>
     </div>
@@ -79,13 +81,7 @@ const showList = () => {
 }
 
 .odd {
-  background-color: #f6f6f7;
+  background-color: #a5a5a7;
 }
 
-.list__bg:last-child{
-  background-color: #e4e4e8;
-}
-.odd:first-child{
-  background-color: #e4e4e8;
-}
 </style>

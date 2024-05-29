@@ -2,8 +2,10 @@
     <li>
         <div class="wrapp">
             <Arrow 
+            v-if="includeChild(list.id)"
             @click="toggle(list.id)" 
             :class="{ 'arrowActive': activeArrow }" />
+            <Minus v-else/>
             <p 
             class="title"> 
             {{ list.title }}
@@ -11,14 +13,14 @@
         </div>
         <div>
             <ul 
-            v-if="isOpen(list.id)" 
+            v-if="activeArrow" 
             class="list">
                 <ListItem 
                 v-for="(sublist, idx) in getSubItems(list.id)" 
-                :key="sublist.id" class="child"
+                :key="sublist.id" 
+                class="child"
                 :listOfData="listOfData" 
-                :list="sublist"
-                :class="idx % 2 === 0 ? 'odd' : ''" />
+                :list="sublist"/>
             </ul>
         </div>
     </li>
@@ -26,7 +28,7 @@
 
 <script>
 import axios from 'axios'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import ListItem from './ListItem.vue'
 import Arrow from './icons/Arrow.vue'
 import Minus from './icons/Minus.vue'
@@ -51,20 +53,19 @@ export default {
                 openItems.value = openItems.value.filter(openId => openId !== id)
             } else {
                 activeArrow.value = true
-                openItems.value.push(id)
+                openItems.value = [...openItems.value, id]
             }
         }
-
-        const isOpen = (id) => openItems.value.includes(id)
-
+        const includeChild = (id) => listOfData.some(i => i.parent_id === id)
+        
         const getSubItems = (parentId) => {
             return listOfData.filter(item => item.parent_id === parentId)
         }
         return {
             toggle,
-            isOpen,
             getSubItems,
-            activeArrow
+            activeArrow,
+            includeChild
         }
     }
 }
@@ -102,5 +103,4 @@ export default {
     width: 150%;
     margin-left: -3.2em;
 }
-
 </style>
