@@ -13,10 +13,9 @@
         </div>
         <div>
             <ul 
-            v-if="activeArrow" 
-            class="list">
+            v-if="activeArrow" >
                 <ListItem 
-                v-for="(sublist, idx) in getSubItems(list.id)" 
+                v-for="(sublist) in getSubItems(list.id)" 
                 :key="sublist.id" 
                 class="child"
                 :listOfData="listOfData" 
@@ -27,8 +26,7 @@
 </template>
 
 <script>
-import axios from 'axios'
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import ListItem from './ListItem.vue'
 import Arrow from './icons/Arrow.vue'
 import Minus from './icons/Minus.vue'
@@ -43,7 +41,7 @@ export default {
         list: Object,
         listOfData: Array,
     },
-    setup({ list, listOfData }) {
+    setup({ listOfData }) {
         const openItems = ref([])
         const activeArrow = ref(false)
 
@@ -57,10 +55,8 @@ export default {
             }
         }
         const includeChild = (id) => listOfData.some(i => i.parent_id === id)
-        
-        const getSubItems = (parentId) => {
-            return listOfData.filter(item => item.parent_id === parentId)
-        }
+        const getSubItems = (id) => listOfData.filter(i => i.parent_id === id)
+
         return {
             toggle,
             getSubItems,

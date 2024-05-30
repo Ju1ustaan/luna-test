@@ -17,6 +17,7 @@ export default {
 }
 
 .list__button button {
+    cursor: pointer;
     text-align: center;
     padding: 20px;
     border-radius: 5px;
